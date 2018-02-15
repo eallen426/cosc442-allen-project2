@@ -7,7 +7,7 @@ package edu.towson.cis.cosc442.project2.rectangle;
 public class Rectangle {
 	
 	/** The p2. */
-	private Point p1, p2;
+	private double x1, x2, y1, y2;
 	
 	/**
 	 * Instantiates a new rectangle.
@@ -15,9 +15,11 @@ public class Rectangle {
 	 * @param p1 the p1
 	 * @param p2 the p2
 	 */
-	Rectangle(Point p1, Point p2) {
-		this.p1 = p1;
-		this.p2 = p2;
+	Rectangle(double x1, double y1, double x2, double y2) {
+		this.x1 = x1;
+		this.x2 = x2;
+		this.y1 = y1;
+		this.y2 = y2;
 	}
 	
 	/**
@@ -26,7 +28,7 @@ public class Rectangle {
 	 * @return the area
 	 */
 	public Double getArea() {
-		return Math.abs((p2.x - p1.x) * (p2.y - p1.y));
+		return Math.abs((x2 - x1) * (y2 - y1));
 	}
 	
 	/**
@@ -35,6 +37,6 @@ public class Rectangle {
 	 * @return the diagonal
 	 */
 	public Double getDiagonal() {
-		return Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2));
+		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
 	}
 }

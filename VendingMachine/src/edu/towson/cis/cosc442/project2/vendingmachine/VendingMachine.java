@@ -10,6 +10,7 @@ package edu.towson.cis.cosc442.project2.vendingmachine;
  * "A" for the slot at index 0, "B" for the slot at index 1, "C" for the slot at index 2, and "D"
  * for the slot at index 3.  
  */
+
 public class VendingMachine {
 
 	// The number of slots in the vending machine
@@ -59,7 +60,7 @@ public class VendingMachine {
 	public VendingMachine() {
 		itemArray = new VendingMachineItem[NUM_SLOTS];
 		for (int i = 0; i < NUM_SLOTS; i++) {
-				itemArray[i] = null;
+				itemArray[1] = null;
 		}
 		this.balance = INITIAL_BALANCE;
 	}
@@ -131,9 +132,7 @@ public class VendingMachine {
 		int slotIndex = getSlotIndex(code);
 		VendingMachineItem item = itemArray[slotIndex];
 		itemArray[slotIndex] = null;
-		if ( item == null) {
-			throw new VendingMachineException(SLOT_MESSAGE + code + IS_EMPTY_MESSAGE);
-		}
+		
 		return item;
 	}
 
@@ -169,10 +168,13 @@ public class VendingMachine {
 	 * @return Returns true if there is enough money to make the purchase.  Returns false if not enough money is put
 	 * into the vending machine to make the purchase.  Also returns false if the code is for an empty slot.
 	 */
-	public boolean makePurchase(String code) {
+	public boolean makePurchase(String code)  {
 		boolean returnCode = false;
 		VendingMachineItem item = getItem(code);
-		if(( item != null ) && ( this.balance >= item.getPrice() )) {
+		if ( item == null) {
+			throw new VendingMachineException(SLOT_MESSAGE + code + IS_EMPTY_MESSAGE);
+		}
+		if(this.balance >= item.getPrice()) {
 			removeItem(code);
 			this.balance -= item.getPrice();
 			returnCode = true;
@@ -191,4 +193,9 @@ public class VendingMachine {
 		this.balance = 0;
 		return change;
 	}
+
+
 }
+
+
+

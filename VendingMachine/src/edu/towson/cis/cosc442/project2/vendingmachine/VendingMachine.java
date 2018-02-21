@@ -37,6 +37,12 @@ public class VendingMachine {
 	// Error message for amounts < 0
 	private static final String INVALID_AMOUNT_MESSAGE = "Invalid amount.  Amount must be >= 0";
 	
+	// Error message for amounts < 0
+	private static final String INVALID_INCREMENT_MESSAGE = "Invalid amount. Must be in increments"
+			+ " of 1 cent";
+	
+	private static final String INSUFFICIENT_FUNDS_MESSAGE = "Insufficient funds.";
+	
 	// Slot part of error message
 	private static final String SLOT_MESSAGE = "Slot ";
 	
@@ -144,6 +150,9 @@ public class VendingMachine {
 	 * @throws VendingMachineException Throws a VendingMachineException if the amount is < 0 
 	 */
 	public void insertMoney(double amount) throws VendingMachineException {
+		if(Math.abs(amount*100) < 1){
+			throw new VendingMachineException(INVALID_INCREMENT_MESSAGE);
+		}
 		if( amount < 0 )
 			throw new VendingMachineException(VendingMachine.INVALID_AMOUNT_MESSAGE);
 		this.balance += amount;
@@ -179,6 +188,10 @@ public class VendingMachine {
 			this.balance -= item.getPrice();
 			returnCode = true;
 		}
+		if(this.balance < item.getPrice()) {
+			throw new VendingMachineException(INSUFFICIENT_FUNDS_MESSAGE);
+		}
+		
 		return returnCode;
 	}
 

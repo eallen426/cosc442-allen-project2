@@ -6,20 +6,35 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/*
+ * This class tests the various functions and exceptions 
+ * of the VendingMachine class
+ */
 public class VendingMachineTest {
 	
+	/** The vend machine. */
 	VendingMachine vendMachine;
 
+	/**
+	 * Sets up a VendingMachine object to be used in all tests
+	 */
 	@Before
 	public void setUp() throws Exception {
 		vendMachine = new VendingMachine();
 	}
 
+	/**
+	 * Sets the VendingMachine object to null
+	 */
 	@After
 	public void tearDown() throws Exception {
 		vendMachine = null;
 	}
 
+	/**
+	 * Test add and remove item functionality
+	 */
 	@Test
 	public void testAddAndRemoveItem() {
 		VendingMachineItem item1 = new VendingMachineItem("pringles", .3);
@@ -36,6 +51,10 @@ public class VendingMachineTest {
 		assertEquals(item4, vendMachine.removeItem("D"));
 	}
 	
+	/**
+	 * Test for exception being thrown when an item is trying to \
+	 * be entered in an occupied slot
+	 */
 	@Test
 	public void addItemException() {
 		VendingMachineItem item3 = new VendingMachineItem("chips ahoy", .5);
@@ -50,20 +69,20 @@ public class VendingMachineTest {
 	    } 
 	}
 
-	/*@Test
-	public void testRemoveItem() {
-		vendMachine.addItem(new VendingMachineItem("pop tarts", .4), "D");
-		//assertEquals(vendMachine.getItemArray()[3], vendMachine.removeItem("D"));
-	}*/
-
+	/**
+	 * Test to make sure inserted money is accounted for
+	 */
 	@Test
 	public void testInsertMoney() {
 		vendMachine.insertMoney(5.00);
 		assertEquals(5.00, vendMachine.getBalance(), .001);
 	}
 	
+	/**
+	 * Test to verify the inserted money is not a negative value
+	 */
 	@Test
-	public void insertMoneyException() {
+	public void insertMoneyException_LessThanZero() {
 		try {
 			vendMachine.insertMoney(-2);
 	        fail();
@@ -73,9 +92,27 @@ public class VendingMachineTest {
 	        assertEquals( expected, e.getMessage());
 	    } 
 	}
-
+	
+	/**
+	 * Test to verify the inserted money is in increments no smaller than 1 cent
+	 */
 	@Test
-	public void invalidCodeMessage() {
+	public void insertMoneyException_InvalidIncrement() {
+		try {
+			vendMachine.insertMoney(.0033);
+	        fail();
+	    } 
+	    catch (Exception e) {
+	        final String expected = "Invalid amount. Must be in increments of 1 cent";
+	        assertEquals( expected, e.getMessage());
+	    } 
+	}
+
+	/**
+	 * Test for exception thrown when an invalid item code is entered
+	 */
+	@Test
+	public void invalidCodeException() {
 		VendingMachineItem item3 = new VendingMachineItem("chips ahoy", .5);
 		try {
 			vendMachine.addItem(item3, "E");
@@ -86,12 +123,19 @@ public class VendingMachineTest {
 	        assertEquals( expected, e.getMessage());
 		}
 	}
+	
+	/**
+	 * Test to verify the correct balance is calculated and returned
+	 */
 	@Test
 	public void testGetBalance() {
 		vendMachine.insertMoney(2.01);
 		assertEquals(2.01, vendMachine.getBalance(), .001);
 	}
 
+	/**
+	 * Test to verify item is removed when purchased successfully
+	 */
 	@Test
 	public void testMakePurchase() {
 		vendMachine.insertMoney(5.00);
@@ -99,8 +143,11 @@ public class VendingMachineTest {
 		assertEquals(true, vendMachine.makePurchase("A"));
 	}
 	
+	/**
+	 * Test for exception thrown when entered slot is empty
+	 */
 	@Test
-	public void testMakePurchaseException() {
+	public void testMakePurchase_EmptySlotException() {
 		try {
 	        vendMachine.makePurchase("A");
 	        fail();
@@ -111,13 +158,28 @@ public class VendingMachineTest {
 	    } 
 	}
 	
+	/**
+	 * Test for Insufficient Funds Exception error
+	 */
 	@Test
-	public void testMakePurchaseInsufficientFunds() {
+	public void testMakePurchase_InsufficientFundsException() {
 		vendMachine.insertMoney(.2);
 		vendMachine.addItem(new VendingMachineItem("pringles", .3),  "A");
-		assertEquals(false, vendMachine.makePurchase("A"));
+		try {
+	        vendMachine.makePurchase("A");
+	        fail();
+	    } 
+	    catch (Exception e) {
+	        final String expected = "Insufficient funds.";
+	        assertEquals( expected, e.getMessage());
+	    } 
 	}
 	
+	/**
+	 * Tests to make sure the balance is updated correctly after a 
+	 * transaction is completed
+	 * 
+	 */
 	@Test
 	public void testMakePurchaseNewBalance() {
 		vendMachine.insertMoney(5.00);
@@ -127,6 +189,9 @@ public class VendingMachineTest {
 		
 	}
 
+	/**
+	 * Test return change
+	 */
 	@Test
 	public void testReturnChange() {
 		vendMachine.insertMoney(5.00);

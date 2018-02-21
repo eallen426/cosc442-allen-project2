@@ -13,6 +13,9 @@ public class VendingMachineItem {
 
 	// Exception message for when the price is less than zero
 	private final static String PRICE_LESS_THAN_ZERO_MESSAGE = "Price cannot be less than zero";
+	private final static String PRICE_INCREMENTS_TOO_SMALL_MESSAGE = "Price has to be in "
+			+ "increments of 1 cent";
+	
 	
 	/**
 	 * Constructor which fills in the name and price of the item
@@ -23,11 +26,14 @@ public class VendingMachineItem {
 	 * @throws VendingMachineException Thrown if price is less than zero
 	 */
 	public VendingMachineItem( String name, double price ) throws VendingMachineException {
-		this.name = name;
-		if( price < 0 ) {
+		if(Math.abs(price*100) < 1) {
+			throw new VendingMachineException(PRICE_INCREMENTS_TOO_SMALL_MESSAGE);
+		}
+		if(price < 0 ) {
 			throw new VendingMachineException(PRICE_LESS_THAN_ZERO_MESSAGE);
 		} else {
 			this.price = price;
+			this.name = name;
 		}
 	}
 	

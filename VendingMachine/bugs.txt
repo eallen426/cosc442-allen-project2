@@ -1,0 +1,15 @@
+(1) 	Bug: "if" condition in makePurchase method screens for null VendingMachineItem item
+	and so exception in removeItem method which checks for null item will never 
+	be thrown when a null item is encountered
+	Fix: moved null item exception condition to makePurchase method
+
+(2)	Bug: inserting money in less than 1 cent increments or creating item with 
+	price of less than 1 cent increments would be allowed
+	Fix: create new exception that catches both of the above situations
+
+(3)	Bug: VendingMachineItem constructor sets name before checking that price !< 0
+	Fix: Moved this.name = name to "else", accompanied by this.price = price
+
+(4)	Bug: No exception error is thrown when a purchase is attempted with 
+	insufficient funds
+	Fix: Put an insufficient funds exception in makePurchase method

@@ -41,6 +41,7 @@ public class VendingMachine {
 	private static final String INVALID_INCREMENT_MESSAGE = "Invalid amount. Must be in increments"
 			+ " of 1 cent";
 	
+	// Error message for insufficient funds
 	private static final String INSUFFICIENT_FUNDS_MESSAGE = "Insufficient funds.";
 	
 	// Slot part of error message
@@ -183,13 +184,15 @@ public class VendingMachine {
 		if ( item == null) {
 			throw new VendingMachineException(SLOT_MESSAGE + code + IS_EMPTY_MESSAGE);
 		}
+		
+		if(this.balance < item.getPrice()) {
+			throw new VendingMachineException(INSUFFICIENT_FUNDS_MESSAGE);
+		}
+		
 		if(this.balance >= item.getPrice()) {
 			removeItem(code);
 			this.balance -= item.getPrice();
 			returnCode = true;
-		}
-		if(this.balance < item.getPrice()) {
-			throw new VendingMachineException(INSUFFICIENT_FUNDS_MESSAGE);
 		}
 		
 		return returnCode;

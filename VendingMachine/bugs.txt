@@ -13,3 +13,6 @@
 (4)	Bug: No exception error is thrown when a purchase is attempted with 
 	insufficient funds
 	Fix: Put an insufficient funds exception in makePurchase method
+
+(5)	Bug: Unnecessary "VendingMachine" in call to invalid code exception
+	Fix: Deleted "VendingMachine
